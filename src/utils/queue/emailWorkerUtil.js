@@ -1,5 +1,5 @@
 const { Worker } = require('bullmq');
-const {sendMail} = require('../sendMail');
+const sendMail = require('../sendMail');
 const { connection } = require('./emailQueue');
 
 const startEmailWorker = () => {

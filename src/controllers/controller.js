@@ -152,7 +152,7 @@ const controller = {
       
         try {
           await emailQueue.add('sendEmail', { to, subject, text }, {
-            delay: 60 * 1000, // Delay by 5 minutes
+            delay: 5 * 60 * 1000, // Delay by 5 minutes
           });
       
           res.status(200).json({ message: 'Email job scheduled after 5 minutes ⏳' });
