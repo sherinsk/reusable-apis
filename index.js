@@ -1,6 +1,11 @@
 const express = require('express');
 const http = require('http');
 const morgan = require('morgan');
+const startEmailWorker = require('./src/utils/queue/emailWorkerUtil');
+
+// Start worker
+startEmailWorker();
+
 const app = express();
 
 const server = http.createServer(app);

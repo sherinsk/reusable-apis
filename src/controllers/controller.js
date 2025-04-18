@@ -1,5 +1,6 @@
 const db=require('../config/database')
 const ExcelJS = require('exceljs');
+const {emailQueue} = require('../utils/queue/emailQueue')
 
 const controller = {
 
@@ -139,7 +140,27 @@ const controller = {
           console.error('Error fetching data:', error);
           res.status(500).json({ message: 'Internal Server Error' });
         }
-      }
+      },
+
+      async sendMail(req, res) 
+      {
+        const { to, subject, text } = req.body;
+      
+        if (!to || !subject || !text) {
+          return res.status(400).json({ message: 'Missing required fields' });
+        }
+      
+        try {
+          await emailQueue.add('sendEmail', { to, subject, text }, {
+            delay: 60 * 1000, // Delay by 5 minutes
+          });
+      
+          res.status(200).json({ message: 'Email job scheduled after 5 minutes ⏳' });
+        } catch (err) {
+          console.error('Error adding job:', err);
+          res.status(500).json({ message: 'Failed to queue email ❌' });
+        }
+      },
       
   };
   
